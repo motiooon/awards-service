@@ -3,16 +3,14 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
+var f = require('util').format,
+    fs = require('fs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Connection URL
-var url = 'mongodb://localhost:27017/awards';
-
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-});
+var url = 'mongodb://54.158.232.2:27017/awards';
 
 app.post('/nominations', function (req, res) {
 
