@@ -9,8 +9,18 @@ var f = require('util').format,
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Connection URL
 var url = 'mongodb://54.158.232.2:27017/awards';
+
+app.get('/', function(req, res){
+  res.send('Hello! Nothing to see here.');
+});
 
 app.post('/nominations', function (req, res) {
 
@@ -19,7 +29,7 @@ app.post('/nominations', function (req, res) {
         console.log("Connected correctly to server");
 
         // Insert a single document
-        db.collection('nominations').insertOne(req.body.nomination, function(err, r) {
+        db.collection('nominations').insertOne(req.body, function(err, r) {
             res.send(r);
         });
     });
@@ -32,7 +42,7 @@ app.post('/votes', function (req, res) {
     MongoClient.connect(url, function(err, db) {
         console.log("Connected correctly to server");
 
-        db.collection('votes').findOne({voter: req.body.vote.voter}, function(err, r){
+        db.collection('votes').findOne({voter: req.body.voter}, function(err, r){
             console.log(err, r);
 
             if(!r){
@@ -53,4 +63,3 @@ app.post('/votes', function (req, res) {
 app.listen(5000, function () {
   console.log('Example app listening on port 5000!')
 });
-
