@@ -16,10 +16,13 @@ app.use(function(req, res, next) {
 });
 
 // Connection URL
-var url = 'mongodb://54.158.232.2:27017/awards';
+var url = 'mongodb://172.23.250.207:27017/awards';
 
 app.get('/', function(req, res){
   res.send('Hello! Nothing to see here.');
+  MongoClient.connect(url, function(err, db) {
+      console.log("Connected correctly to server",err, db);
+    });
 });
 
 app.post('/nominations', function (req, res) {
